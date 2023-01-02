@@ -140,7 +140,7 @@ def comparacao(yf_ibov, infomoney_ibov):
 
 def imagem(data, fechamento_ibov, porcentagem_ibov, fechamento_dolar, porcentagem_dolar, 
 ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_low, cdi):
-    img = Image.open("D:\Phidias\Fechamento mercado\Fechamento Cru.png")
+    img = Image.open("Fechamento Cru.png")
     cor_data = "grey"
  
     # Call draw Method to add 2D graphics in an image
@@ -148,13 +148,13 @@ ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_lo
 
     path = "D:\Phidias\Fechamento mercado\goldman-sans-cufonfonts"
     
-    fonte_data = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=40)
-    fonte_preco_ibov_usd = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=55)
-    fonte_porcentagem_ibov_usd = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=32)
-    fonte_ticker = ImageFont.truetype(font=path+"\GoldmanSansCd_Bd.ttf", size=50)
-    fonte_preço = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=40)
-    fonte_rentabilidade = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=25)
-    fonte_CDI = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=56)
+    fonte_data = ImageFont.truetype(font="\GoldmanSans_Rg.ttf", size=40)
+    fonte_preco_ibov_usd = ImageFont.truetype(font=\GoldmanSans_Rg.ttf", size=55)
+    fonte_porcentagem_ibov_usd = ImageFont.truetype(font="\GoldmanSans_Rg.ttf", size=32)
+    fonte_ticker = ImageFont.truetype(font="\GoldmanSansCd_Bd.ttf", size=50)
+    fonte_preço = ImageFont.truetype(font="\GoldmanSans_Rg.ttf", size=40)
+    fonte_rentabilidade = ImageFont.truetype(font="\GoldmanSans_Rg.ttf", size=25)
+    fonte_CDI = ImageFont.truetype(font="\GoldmanSans_Rg.ttf", size=56)
  
     # data
     I1.text((330, 528), data, font=fonte_data, align='center', fill=cor_data)
