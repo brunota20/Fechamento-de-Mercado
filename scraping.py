@@ -1,4 +1,3 @@
-from cgitb import text
 from typing import Literal, Text
 import requests
 from bs4 import BeautifulSoup
@@ -6,6 +5,9 @@ import pandas as pd
 from PIL import Image, ImageDraw, ImageFont
 from datetime import date
 import yfinance as yf
+import win32com.client as win32
+
+
 
 
 URL_highlow = "https://www.infomoney.com.br/wp-json/infomoney/v1/highlow"
@@ -18,12 +20,38 @@ r_ibov = requests.get(URL_ibov).json()
 r_usdbtc = requests.get(URL_usdbtc).json()
 
 
+def email():
+    # criar a integração com o outlook
+    outlook = win32.Dispatch('outlook.application')
+
+    # criar um email
+    email = outlook.CreateItem(0)
+
+    
+
+    # configurar as informações do seu e-mail
+    email.To = "bruno@phidiasinvestimentos.com.br"
+    email.Subject = "Fechamento de Mercado" + " ({})".format(date.today())
+    email.HTMLBody = f"""
+    <p>Boa noite! Tudo bem?<p>
+
+    <p>Segue o Fechamento de Mercado do dia {date.today()} anexado ao e-mail.<p>
+
+    <p>Abraços.<p>
+    """
+
+    anexo = "Fechamento de Mercado.png"
+    email.Attachments.Add(anexo)
+
+    email.Send()
+    print("Email Enviado")
+
 def yfinance():
     ibov = yf.download("^BVSP", start = date.today())
     fechamento = ibov.iloc[0].at["Close"]
     abertura = ibov.iloc[0].at["Open"]
     porcentagem = round((((fechamento - abertura)*100)/abertura),2)
-    return int(fechamento), str(porcentagem)
+    return '{0:,}'.format(int(fechamento)).replace(',','.'), str(porcentagem)
 
 
 def anbima_CDI():
@@ -148,23 +176,23 @@ ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_lo
 
     path = "D:\Phidias\Fechamento mercado\goldman-sans-cufonfonts"
     
-    fonte_data = ImageFont.truetype(font="\GoldmanSans_Rg.ttf", size=40)
-    fonte_preco_ibov_usd = ImageFont.truetype(font=\GoldmanSans_Rg.ttf", size=55)
-    fonte_porcentagem_ibov_usd = ImageFont.truetype(font="\GoldmanSans_Rg.ttf", size=32)
-    fonte_ticker = ImageFont.truetype(font="\GoldmanSansCd_Bd.ttf", size=50)
-    fonte_preço = ImageFont.truetype(font="\GoldmanSans_Rg.ttf", size=40)
-    fonte_rentabilidade = ImageFont.truetype(font="\GoldmanSans_Rg.ttf", size=25)
-    fonte_CDI = ImageFont.truetype(font="\GoldmanSans_Rg.ttf", size=56)
+    fonte_data = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=40)
+    fonte_preco_ibov_usd = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=55)
+    fonte_porcentagem_ibov_usd = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=32)
+    fonte_ticker = ImageFont.truetype(font=path+"\GoldmanSansCd_Bd.ttf", size=50)
+    fonte_preço = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=40)
+    fonte_rentabilidade = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=25)
+    fonte_CDI = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=56)
  
     # data
     I1.text((330, 528), data, font=fonte_data, align='center', fill=cor_data)
     # Preço do Ibov
-    #I1.text((707, 604), str(fechamento_ibov), font=fonte_preco_ibov_usd, align='right', fill='white')
-    I1.text((707, 604), "109.734", font=fonte_preco_ibov_usd, align='right', fill='white')
+    I1.text((707, 604), str(fechamento_ibov), font=fonte_preco_ibov_usd, align='right', fill='white')
+    #I1.text((707, 604), "109.734", font=fonte_preco_ibov_usd, align='right', fill='white')
     # Porcentagem do Ibov
     cor_porcentagem_ibov = corFonte(porcentagem_ibov)
-    #I1.text((805, 661), str(porcentagem_ibov)+"%", font=fonte_porcentagem_ibov_usd, align='right', fill=cor_porcentagem_ibov)
-    I1.text((805, 661), '-'+ "{:.2f}".format(0.46)+"%", font=fonte_porcentagem_ibov_usd, align='right', fill='red')
+    I1.text((805, 661), str(porcentagem_ibov)+"%", font=fonte_porcentagem_ibov_usd, align='right', fill=cor_porcentagem_ibov)
+    #I1.text((805, 661), '-'+ "{:.2f}".format(0.46)+"%", font=fonte_porcentagem_ibov_usd, align='right', fill='red')
     # Preço do Dólar
     I1.text((720, 726), str(fechamento_dolar), font=fonte_preco_ibov_usd, align='right', fill='white')
     # Porcentagem do dolar
@@ -213,7 +241,7 @@ ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_lo
 
 
     # Display edited image
-    img.show()
+    #img.show()
     
     # Save the edited image
     img.save("D:\Phidias\Fechamento mercado\Fechamento de Mercado.png")
@@ -230,8 +258,8 @@ def main():
     fechamento_comparado = comparacao(yf_ibov,fechamento_ibov)
     porcentagem_comparada = comparacao(yf_porcentagem, porcentagem_ibov)
     cdi = anbima_CDI()
-    imagem(data_texto, fechamento_comparado, porcentagem_comparada, fechamento_dolar, porcentagem_dolar, ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_low, cdi)
-
+    anexo = imagem(data_texto, fechamento_comparado, porcentagem_comparada, fechamento_dolar, porcentagem_dolar, ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_low, cdi)
+    email()
 
 
 
