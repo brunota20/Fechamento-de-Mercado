@@ -30,4 +30,5 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: Send greeting
-      run: ./scraping.py
+      # working-directory: Fechamento-de-Mercado
+      run: scraping.py
