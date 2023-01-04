@@ -46,7 +46,7 @@ def email():
 
         msg.attach(MIMEText(body, 'plain'))
 
-        imagem = 'D:\Phidias\Fechamento mercado\Fechamento de Mercado.png'
+        imagem = 'Fechamento de Mercado.png'
         attachment = open(imagem,'rb')
 
 
@@ -197,13 +197,13 @@ def comparacao(yf_ibov, infomoney_ibov):
 
 def imagem(data, fechamento_ibov, porcentagem_ibov, fechamento_dolar, porcentagem_dolar, 
 ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_low, cdi):
-    img = Image.open("D:\Phidias\Fechamento mercado\Fechamento Cru.png")
+    img = Image.open("Fechamento Cru.png")
     cor_data = "grey"
  
     # Call draw Method to add 2D graphics in an image
     I1 = ImageDraw.Draw(img)
 
-    path = "D:\Phidias\Fechamento mercado\goldman-sans-cufonfonts"
+    path = "goldman-sans-cufonfonts"
     
     fonte_data = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=40)
     fonte_preco_ibov_usd = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=55)
@@ -273,7 +273,7 @@ ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_lo
     #img.show()
     
     # Save the edited image
-    img.save("D:\Phidias\Fechamento mercado\Fechamento de Mercado.png")
+    img.save("Fechamento de Mercado.png")
 
 
 def main():
