@@ -9,7 +9,7 @@ on:
     branches: [ main ]
   schedule:
   # Roda todos os dias úteis as 18h40
-    - cron: '40 15 * * 1-5'
+    - cron: '30 16 * * 1-5'
     #- cron: '25 * * * *'
   workflow_dispatch:
     # Inputs the workflow accepts.
