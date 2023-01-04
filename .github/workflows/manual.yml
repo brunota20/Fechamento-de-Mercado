@@ -35,7 +35,7 @@ jobs:
       - name: Setup Python Version
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8 # Install the python version needed
+          python-version: 3.11 # Install the python version needed
       - name: Install Python dependencies
         run: python -m pip install -r ./requirements.txt
       - name: Scraping # Run the run.py on the repository root directory
