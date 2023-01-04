@@ -39,7 +39,7 @@ def email():
         body = f"""
             Boa noite! Tudo bem?
 
-            Segue o Fechamento de Mercado do dia {date.today()} anexado ao e-mail<p>
+            Segue o Fechamento de Mercado do dia {date.today()} anexado ao e-mail.
 
             Abraços.
             """
@@ -77,6 +77,13 @@ def yfinance():
     fechamento = ibov.iloc[0].at["Close"]
     abertura = ibov.iloc[0].at["Open"]
     porcentagem = round((((fechamento - abertura)*100)/abertura),2)
+    if str(porcentagem).startswith("+") or str(porcentagem).startswith("-"):
+        pass
+    else:
+        if porcentagem > 0:
+            porcentagem = "+"+"{:.2f}".format(porcentagem)
+        else:
+            porcentagem = "-"+"{:.2f}".format(porcentagem)
     return '{0:,}'.format(int(fechamento)).replace(',','.'), str(porcentagem)
 
 
