@@ -5,7 +5,13 @@ import pandas as pd
 from PIL import Image, ImageDraw, ImageFont
 from datetime import date
 import yfinance as yf
-import win32com.client as win32
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+
+
 
 
 
@@ -21,30 +27,50 @@ r_usdbtc = requests.get(URL_usdbtc).json()
 
 
 def email():
-    # criar a integração com o outlook
-    outlook = win32.Dispatch('outlook.application')
+    try:
+        fromaddr = "brunot.anjos@hotmail.com"
+        toaddr = 'bruno@phidiasinvestimentos.com.br'
+        msg = MIMEMultipart()
 
-    # criar um email
-    email = outlook.CreateItem(0)
+        msg['From'] = fromaddr 
+        msg['To'] = toaddr
+        msg['Subject'] = "Fechamento de Mercado" + " ({})".format(date.today())
 
-    
+        body = f"""
+            Boa noite! Tudo bem?
 
-    # configurar as informações do seu e-mail
-    email.To = "bruno@phidiasinvestimentos.com.br"
-    email.Subject = "Fechamento de Mercado" + " ({})".format(date.today())
-    email.HTMLBody = f"""
-    <p>Boa noite! Tudo bem?<p>
+            Segue o Fechamento de Mercado do dia {date.today()} anexado ao e-mail<p>
 
-    <p>Segue o Fechamento de Mercado do dia {date.today()} anexado ao e-mail.<p>
+            Abraços.
+            """
 
-    <p>Abraços.<p>
-    """
+        msg.attach(MIMEText(body, 'plain'))
 
-    anexo = "Fechamento de Mercado.png"
-    email.Attachments.Add(anexo)
+        imagem = 'D:\Phidias\Fechamento mercado\Fechamento de Mercado.png'
+        attachment = open(imagem,'rb')
 
-    email.Send()
-    print("Email Enviado")
+
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload((attachment).read())
+        encoders.encode_base64(part)
+        part.add_header('Content-Disposition', "attachment; filename= %s" % imagem)
+
+        msg.attach(part)
+
+        attachment.close()
+
+        server = smtplib.SMTP('smtp.outlook.com', 587)
+        server.starttls()
+        server.login(fromaddr, "anjos4")
+        text = msg.as_string()
+        server.sendmail(fromaddr, toaddr, text)
+        server.quit()
+        print('\nEmail enviado com sucesso!')
+    except Exception as e:
+        print("\nErro ao enviar email")
+        print(e)
+
+
 
 def yfinance():
     ibov = yf.download("^BVSP", start = date.today())
@@ -161,14 +187,17 @@ def corFonte(porcentagem):
     return cor
 
 def comparacao(yf_ibov, infomoney_ibov):
-    if yf_ibov == infomoney_ibov:
+    try:
+        if yf_ibov == infomoney_ibov:
+            return infomoney_ibov
+        else:
+            return yf_ibov
+    except:
         return infomoney_ibov
-    else:
-        return yf_ibov
 
 def imagem(data, fechamento_ibov, porcentagem_ibov, fechamento_dolar, porcentagem_dolar, 
 ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_low, cdi):
-    img = Image.open("Fechamento Cru.png")
+    img = Image.open("D:\Phidias\Fechamento mercado\Fechamento Cru.png")
     cor_data = "grey"
  
     # Call draw Method to add 2D graphics in an image
@@ -258,7 +287,7 @@ def main():
     fechamento_comparado = comparacao(yf_ibov,fechamento_ibov)
     porcentagem_comparada = comparacao(yf_porcentagem, porcentagem_ibov)
     cdi = anbima_CDI()
-    anexo = imagem(data_texto, fechamento_comparado, porcentagem_comparada, fechamento_dolar, porcentagem_dolar, ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_low, cdi)
+    imagem(data_texto, fechamento_comparado, porcentagem_comparada, fechamento_dolar, porcentagem_dolar, ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_low, cdi)
     email()
 
 
