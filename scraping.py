@@ -205,13 +205,13 @@ ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_lo
 
     path = "goldman-sans-cufonfonts"
     
-    fonte_data = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=40)
-    fonte_preco_ibov_usd = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=55)
-    fonte_porcentagem_ibov_usd = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=32)
-    fonte_ticker = ImageFont.truetype(font=path+"\GoldmanSansCd_Bd.ttf", size=50)
-    fonte_preço = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=40)
-    fonte_rentabilidade = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=25)
-    fonte_CDI = ImageFont.truetype(font=path+"\GoldmanSans_Rg.ttf", size=56)
+    fonte_data = ImageFont.truetype(font=path+"/GoldmanSans_Rg.ttf", size=40)
+    fonte_preco_ibov_usd = ImageFont.truetype(font=path+"/GoldmanSans_Rg.ttf", size=55)
+    fonte_porcentagem_ibov_usd = ImageFont.truetype(font=path+"/GoldmanSans_Rg.ttf", size=32)
+    fonte_ticker = ImageFont.truetype(font=path+"/GoldmanSansCd_Bd.ttf", size=50)
+    fonte_preço = ImageFont.truetype(font=path+"/GoldmanSans_Rg.ttf", size=40)
+    fonte_rentabilidade = ImageFont.truetype(font=path+"/GoldmanSans_Rg.ttf", size=25)
+    fonte_CDI = ImageFont.truetype(font=path+"/GoldmanSans_Rg.ttf", size=56)
  
     # data
     I1.text((330, 528), data, font=fonte_data, align='center', fill=cor_data)
