@@ -33,4 +33,4 @@ jobs:
     # Runs a single command using the runners shell
     - name: Send greeting
       working-directory: .
-      run: scraping.py
+      run: ./scraping.py
