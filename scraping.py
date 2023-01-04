@@ -105,7 +105,7 @@ def anbima_CDI():
         for cell in cells:
             data.append(cell.string)
     a = data[15]
-    b = a.replace(".",",")
+    b = a.replace(",",".")
     c = b.replace("%","")
     return c
 
