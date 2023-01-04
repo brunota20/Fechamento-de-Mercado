@@ -4,10 +4,7 @@ name: Manual workflow
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
-on:
-
-  push:
-    branches: [ master ]
+on: 
   schedule:
   # Roda todos os dias úteis as 18h40
     - cron: '40 18 * * 1,2,3,4,5'
@@ -33,5 +30,5 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: Send greeting
-      # working-directory: Fechamento-de-Mercado
-      run: ls
+      working-directory: ./Fechamento-de-Mercado
+      run: scraping.py
