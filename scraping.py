@@ -10,9 +10,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
-
-
-
+from bcb import sgs
 
 
 
@@ -85,6 +83,11 @@ def yfinance():
         else:
             porcentagem = "-"+"{:.2f}".format(porcentagem)
     return '{0:,}'.format(int(fechamento)).replace(',','.'), str(porcentagem)
+
+
+def dados_selic():
+    selic = sgs.get(('selic', 432), start = '2010-01-01')
+    return str(selic.iloc[-1].at["selic"]).replace(".",",")
 
 
 def anbima_CDI():
@@ -203,7 +206,7 @@ def comparacao(yf_ibov, infomoney_ibov):
         return infomoney_ibov
 
 def imagem(data, fechamento_ibov, porcentagem_ibov, fechamento_dolar, porcentagem_dolar, 
-ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_low, cdi):
+ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_low, cdi, selic):
     img = Image.open("Fechamento Cru.png")
     cor_data = "grey"
  
@@ -236,6 +239,8 @@ ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_lo
     I1.text((800, 783), str(porcentagem_dolar)+"%", font=fonte_porcentagem_ibov_usd, align='right', fill=cor_porcentagem_dolar)
     # Porcentagem CDI
     I1.text((723, 864), "{:.2f}".format(float(cdi)) + "%", font=fonte_CDI, align='right', fill='white')
+    # Porcentagem SELIC
+    I1.text((723, 984), f"{selic}%", font=fonte_CDI, align='right', fill='white')
     # Tickers altas
     distancia_ticker_high = 10
     for i in range(len(ticker_high)):
@@ -293,8 +298,9 @@ def main():
     ticker_low, valor_low, porcentagem_low = dadosHighLow(t_low)
     fechamento_comparado = comparacao(yf_ibov,fechamento_ibov)
     porcentagem_comparada = comparacao(yf_porcentagem, porcentagem_ibov)
+    selic = dados_selic()
     cdi = anbima_CDI()
-    imagem(data_texto, fechamento_comparado, porcentagem_comparada, fechamento_dolar, porcentagem_dolar, ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_low, cdi)
+    imagem(data_texto, fechamento_comparado, porcentagem_comparada, fechamento_dolar, porcentagem_dolar, ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_low, cdi, selic)
     email()
 
 
