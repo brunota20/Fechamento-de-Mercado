@@ -223,23 +223,25 @@ ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_lo
     fonte_CDI = ImageFont.truetype(font=path+"/GoldmanSans_Rg.ttf", size=56)
  
     # data
-    I1.text((330, 528), data, font=fonte_data, align='center', fill=cor_data)
+    I1.text((340, 528), data, font=fonte_data, fill=cor_data)
     # Preço do Ibov
-    I1.text((707, 604), str(fechamento_ibov), font=fonte_preco_ibov_usd, align='right', fill='white')
-    #I1.text((707, 604), "109.734", font=fonte_preco_ibov_usd, align='right', fill='white')
+    if len(fechamento_ibov) > 99999:
+        I1.text((707, 604), str(fechamento_ibov), font=fonte_preco_ibov_usd, align='right', fill='white')
+    else:
+        I1.text((737, 604), str(fechamento_ibov), font=fonte_preco_ibov_usd, align='right', fill='white')
     # Porcentagem do Ibov
     cor_porcentagem_ibov = corFonte(porcentagem_ibov)
     I1.text((805, 661), str(porcentagem_ibov)+"%", font=fonte_porcentagem_ibov_usd, align='right', fill=cor_porcentagem_ibov)
-    #I1.text((805, 661), '-'+ "{:.2f}".format(0.46)+"%", font=fonte_porcentagem_ibov_usd, align='right', fill='red')
+    
     # Preço do Dólar
     I1.text((720, 726), str(fechamento_dolar), font=fonte_preco_ibov_usd, align='right', fill='white')
     # Porcentagem do dolar
     cor_porcentagem_dolar = corFonte(porcentagem_dolar)
     I1.text((800, 783), str(porcentagem_dolar)+"%", font=fonte_porcentagem_ibov_usd, align='right', fill=cor_porcentagem_dolar)
     # Porcentagem CDI
-    I1.text((723, 870), f"{cdi}%", font=fonte_CDI, align='right', fill='white')
+    I1.text((723, 864), f"{cdi}%", font=fonte_CDI, align='right', fill='white')
     # Porcentagem SELIC
-    I1.text((723, 990), f"{selic}%", font=fonte_CDI, align='right', fill='white')
+    I1.text((723, 984), f"{selic}%", font=fonte_CDI, align='right', fill='white')
     # Tickers altas
     distancia_ticker_high = 10
     for i in range(len(ticker_high)):
@@ -274,14 +276,6 @@ ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_lo
         cor_rentabilidade_low = corFonte(porcentagem_low[i])
         I1.text((570, 1247 + distancia_rentabilidade_low), str(porcentagem_low[i])+"%", font=fonte_rentabilidade, align='left', fill=cor_rentabilidade_low)
         distancia_rentabilidade_low = distancia_rentabilidade_low + 85
-
-    
-
-
-
-
-    # Display edited image
-    #img.show()
     
     # Save the edited image
     img.save("Fechamento de Mercado.png")
