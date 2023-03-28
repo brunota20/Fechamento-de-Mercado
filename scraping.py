@@ -225,7 +225,7 @@ ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_lo
     # data
     I1.text((340, 528), data, font=fonte_data, fill=cor_data)
     # Preço do Ibov
-    if len(fechamento_ibov) > 99999:
+    if len(fechamento_ibov) > 6:
         I1.text((707, 604), str(fechamento_ibov), font=fonte_preco_ibov_usd, align='right', fill='white')
     else:
         I1.text((737, 604), str(fechamento_ibov), font=fonte_preco_ibov_usd, align='right', fill='white')
