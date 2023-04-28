@@ -27,7 +27,7 @@ r_usdbtc = requests.get(URL_usdbtc).json()
 def email():
     try:
         fromaddr = "brunot.anjos@hotmail.com"
-        toaddr = 'bruno@phidiasinvestimentos.com.br'
+        toaddr = 'marco@phidiasinvestimentos.com.br'
         msg = MIMEMultipart()
 
         msg['From'] = fromaddr 
