@@ -91,25 +91,11 @@ def dados_selic():
 
 
 def anbima_CDI():
-    URL = "https://www.anbima.com.br/pt_br/informar/estatisticas/precos-e-indices/indicadores.htm"
-    r = requests.get(URL)
-    
-    soup = BeautifulSoup(r.content, 'html5lib')
+    cdi = sgs.get(('CDI', 433), last=12)
 
-    tables = soup.findChildren('table')
-    # This will get the first (and only) table. Your page may have more.
-    my_table = tables[0]
+    return cdi["CDI"].sum()
 
-    # You can find children with multiple tags by passing a list of strings
-    rows = my_table.findChildren(['tbody', 'tr'])
-    data = []
-    for row in rows:
-        cells = row.findChildren('td')
-        for cell in cells:
-            data.append(cell.string)
-    a = data[15]
-    b = a.replace(".",",")
-    return b
+anbima_CDI()
 
 
 def data():
