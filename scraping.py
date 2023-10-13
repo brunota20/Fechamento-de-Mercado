@@ -93,7 +93,7 @@ def dados_selic():
 def anbima_CDI():
     cdi = sgs.get(('CDI', 433), last=12)
 
-    cdi_string =  str(cdi["CDI"].sum()).replace(".",",")
+    cdi_string =  str(round(cdi["CDI"].sum(), 2)).replace(".",",")
     
     return cdi_string
 
