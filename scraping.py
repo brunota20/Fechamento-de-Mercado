@@ -227,7 +227,7 @@ ticker_high, valor_high, porcentagem_high, ticker_low, valor_low, porcentagem_lo
     cor_porcentagem_dolar = corFonte(porcentagem_dolar)
     I1.text((800, 783), str(porcentagem_dolar)+"%", font=fonte_porcentagem_ibov_usd, align='right', fill=cor_porcentagem_dolar)
     # Porcentagem CDI
-    I1.text((754, 864), cdi+"%", font=fonte_CDI, align='right', fill='white')
+    I1.text((723, 864), cdi+"%", font=fonte_CDI, align='right', fill='white')
     # Porcentagem SELIC
     I1.text((723, 984), f"{selic}%", font=fonte_CDI, align='right', fill='white')
     # Tickers altas
